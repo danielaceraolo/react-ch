@@ -1,0 +1,15 @@
+    .img img {
+        max-width: 25%;
+        padding: 1px;
+    }
+
+    .p{
+        letter-spacing: 5px;
+        font-weight: bold;
+    }
+
+    .Navbar{
+        font-size: 20px;
+        color: white;
+    }
+
