@@ -1,18 +1,39 @@
-import React from 'react'
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { gFetch } from "../../utils/gFetch";
 
-const ItemDetail = ({ product }) => {
+export const ItemDetail = () => {
+    const [product, setProduct] = useState([]);
+    const { productId } = useParams();
+
+    useEffect(() => {
+        gFetch().then((res) => {
+            setProduct(res.filter((el) => el.id === productId));
+            console.log(product);
+        });
+    }, []);
+
     return (
-        <div className="row">
-            <div className="col">
+        <>
+            {product.map((obj) => (
                 <center>
-                    <h2 className="m-5">Product</h2>
+                    <div key={obj.id} className="card w-50 mx-1">
+                        <center>
+                            <h5 className="card-header">{obj.name}</h5>
+                        </center>
+                        <div className="card-body">
+                            <center>
+                                <img src={`${obj.foto}`} className="w-50" />
+                            </center>
+                        </div>
+                        <div className="card-footer">
+                            <p>Total: $ {obj.price}</p>
+                        </div>
+                    </div>
                 </center>
-                <p>Categoria: {product.categoria}</p>
-                <p>Precio: {product.precio}</p>
-                <p>Stock: {product.stock}</p>
-            </div>
-        </div>
-    )
-}
+            ))}
+        </>
+    );
+};
 
 export default ItemDetail

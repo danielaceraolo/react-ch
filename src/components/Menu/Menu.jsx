@@ -1,37 +1,39 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-
-import CartWidget from '../CartWidget/CartWidget';
-
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import { Link } from "react-router-dom";
+import CartWidget from "../CartWidget/CartWidget";
 import './Menu.css'
 
-const Menu = () => {
+import { useEffect } from "react";
+
+function Menu() {
     return (
         <Navbar className='Navbar p-5' collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
-                
-                <Navbar.Brand href="#home" className='p'>SNEAKER</Navbar.Brand>
-                
+                <Link to={"/"}>
+                    <Navbar.Brand className="p">SNEAKER</Navbar.Brand>
+                </Link>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="nav-text me-auto">
-                        <Nav.Link href="#">Sobre Nosotros</Nav.Link>
-                        <NavDropdown title="Productos" id="collasible-nav-dropdown">
-                            <NavDropdown.Item to="/categoria/deportivas">Deportivas</NavDropdown.Item>
-                            <NavDropdown.Item to="/categoria/moda">Moda</NavDropdown.Item>
-                            <NavDropdown.Item to="/categoria/accesorios">Accesorios</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            </NavDropdown>
+                    <Nav className="me-auto">
+                        <Nav.Link>
+                            <Link to="/categoria/deportivas">Deportivas</Link>
+                        </Nav.Link>
+                        <Nav.Link>
+                            <Link to="/categoria/moda">Moda</Link>
+                        </Nav.Link>
+                        <Nav.Link>
+                            <Link to="/categoria/accesorios">Accesorios</Link>
+                        </Nav.Link>
                     </Nav>
                     <Nav>
-                        <Nav.Link eventKey={2} href="#">
-                            <div className='cart'><CartWidget /></div>
-                        </Nav.Link>
-                        <Nav.Link href="#">
+                        <Link to={"/cart"}>
+                            <CartWidget />
+                        </Link>
+                        {/*<Nav.Link href="#">
                             <div className='img'><img src='./src/assets/logo/logo.png'/></div>
-                        </Nav.Link>
+                        </Nav.Link>*/}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

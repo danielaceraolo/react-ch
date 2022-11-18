@@ -1,73 +1,61 @@
-import { Link, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { gFetch } from '../../utils/gFetch'
-import './ItemListContainer.css'
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
+import { gFetch } from "../../utils/gFetch";
+import { Link, useParams } from "react-router-dom";
 
+const ItemListContainer = (obj) => {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const { categoriaId } = useParams();
 
-
-
-const ItemListContainer = () => {  
-    const [products, setProducts] = useState([])
-    const {categoriaId} = useParams()
-    
-    useEffect(()=> {
+    useEffect(() => {
         if (categoriaId) {
             gFetch()
-            .then(resp =>  setProducts(resp.filter(prod => prod.categoria === categoriaId)))    
-            .catch(err => console.log(err))
-            .finally(()=>setLoading(false)) 
-            
-        }else{
+                .then((resp) =>
+                    setProducts(resp.filter((prod) => prod.categoria === categoriaId))
+                )
+                .catch((err) => console.log(err))
+                .finally(() => setLoading(false));
+        } else {
             gFetch()
-            .then(resp =>  setProducts(resp))    
-            .catch(err => console.log(err))
-            .finally(()=>setLoading(false)) 
+                .then((resp) => setProducts(resp))
+                .catch((err) => console.log(err))
+                .finally(() => setLoading(false));
         }
-        
-        
-    }, [categoriaId])
+    }, [categoriaId]);
 
-    
-    console.log(categoriaId)
+    console.log(products);
 
-
-    return (
-        <>
-            <div>
-                <center>
-                <h1 className='m-3'>SNEAKERS - Venta de Zapatillas y Accesorios</h1>
-                </center>
-
-                <div className='cards container ml-5' >
-
-
-                    {products.map(obj => <div key={obj.id} className='card w-25 p-3 m-1 me-1 mb-1'>
-                        <Link to={`/detail/${obj.id}`} >
-                            <div className='card-header'>
-                                {obj.name}
+    return loading ? (
+        <h4 className="text-center mt-5">Cargando, aguarde un momento...</h4>
+    ) : (
+        <div className="row text-center">
+            <h1 className="m-5">Nuestros Productos</h1>
+            <div className="d-flex flex-row flex-wrap justify-content-center align-items-center gap-5">
+                {products.map((obj) => (
+                    <section key={obj.id}>
+                        <Link to={`/detail/${obj.id}`}>
+                            <div
+                                className="card text-center text-dark"
+                                style={{ width: "18rem" }}
+                            >
+                                <img
+                                    className="card-img-top img-fluid"
+                                    src={obj.foto}
+                                    alt="foto-product"
+                                />
+                                <div className="card-body">
+                                    <h5 className="card-title text-center">{obj.name}</h5>
+                                    <p>$ {obj.price}</p>
+                                    <button className="btn btn-danger">Ver Detalle</button>
+                                </div>
                             </div>
-                            <div className='card-body'>
-                                <center>
-                                    <img src={obj.foto} className="w-50" />
-
-                                </center>
-                            </div>
-                            <div className='card-footer w-100'>
-                                precio : $ {obj.price}
-                                <br></br>
-                                stock: {obj.stock}
-                            </div>
-
                         </Link>
-
-                    </div>)}
-
-
-                </div>
+                    </section>
+                ))}
             </div>
+        </div>
+    );
+};
 
-</>
-    )}
-
-
-            export default ItemListContainer
+export default ItemListContainer;
